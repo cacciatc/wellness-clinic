@@ -27,6 +27,18 @@ function StatsCtrl($scope,$http){
 				$scope.players[i].name  = $scope.players[i][0];
 				$scope.players[i].pos   = $scope.players[i][1];
 				$scope.players[i].team  = $scope.players[i][2];
+				$scope.players[i].runs  = $scope.players[i][5];
+				$scope.players[i].hits  = $scope.players[i][6] + $scope.players[i][7] + $scope.players[i][8] + $scope.players[i][9];
+				$scope.players[i].singles  = $scope.players[i][6];
+				$scope.players[i].doubles  = $scope.players[i][7];
+				$scope.players[i].triples  = $scope.players[i][8];
+				$scope.players[i].homeruns  = $scope.players[i][9];
+				$scope.players[i].rbis  = $scope.players[i][10];
+				$scope.players[i].walks  = $scope.players[i][11];
+				$scope.players[i].ks  = $scope.players[i][12];
+				$scope.players[i].sbs  = $scope.players[i][13];
+				$scope.players[i].slg  = $scope.players[i][16];
+				$scope.players[i].obp  = $scope.players[i][17];
 			}
 		});
 	}
@@ -34,7 +46,7 @@ function StatsCtrl($scope,$http){
 		$scope.selected_player = player;
 		var t = $scope.score_list(player);
 		$(".spark").html("");
-		$(".spark").sparkline(t,{type:'bar', height:34, barWidth:21, chartRangeMax:window.max_runs_score});
+		$(".spark").sparkline(t,{type:'bar', height:55, barWidth:34, chartRangeMax:window.max_runs_score});
 		$("#mod").modal('show');
 	}
 	$scope.score_list = function(player){

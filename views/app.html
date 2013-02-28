@@ -193,11 +193,42 @@
 			<div class="modal fade" id="mod">
   			<div class="modal-header">
     			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    			<h3>{{selected_player.name}}</h3>
+    			<h3>{{selected_player.name}} <em style="opacity:0.8;padding-right:5px;">{{selected_player.pos}}</em> 
+						<img ng-src="{{'img/'+selected_player.team+'.gif'}}" width="34px" style="padding-left:3px;"/></h3>
   			</div>
   			<div class="modal-body">
 					<p><span class="spark"></span></p>
-  			</div>
+					<table class="table">
+						<tr>
+							<th>Runs</th>
+							<th>H</th>
+							<th>1B</th>
+							<th>2B</th>
+							<th>3B</th>
+							<th>HR</th>
+							<th>RBI</th>
+							<th>BB</th>
+							<th>K</th>
+							<th>SB</th>
+							<th>SLG</th>
+							<th>OBP</th>
+						</tr>
+						<tr>
+							<td>{{selected_player.runs}}</td>
+							<td>{{selected_player.hits}}</td>
+							<td>{{selected_player.singles}}</td>
+							<td>{{selected_player.doubles}}</td>
+							<td>{{selected_player.triples}}</td>
+							<td>{{selected_player.homeruns}}</td>
+							<td>{{selected_player.rbis}}</td>
+							<td>{{selected_player.walks}}</td>
+							<td>{{selected_player.ks}}</td>
+							<td>{{selected_player.sbs}}</td>
+							<td>{{selected_player.slg}}</td>
+							<td>{{selected_player.obp}}</td>
+						</tr>
+					</table>
+				</div>
   		</div>
 		</div>
 		</div>
