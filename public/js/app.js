@@ -1,28 +1,31 @@
 var app = angular.module('baseball', []);
 
-app.directive("barsparkline", function() {
-    return {
-        restrict:"E",
-        scope:{
-            data:"@"
-        },
-        compile: function(tElement,tAttrs,transclude){
-            tElement.replaceWith("<span>"+tAttrs.data+"</span>");
-            return function(scope, element, attrs){
-                attrs.$observe("data", function(newValue){
-                    element.html(newValue);
-                    element.sparkline('html',{type:'bar', height:34, barWidth:21, chartRangeMax:window.max_runs_score});
-                });
-            };
-        }
-    };
-});
-
 function StatsCtrl($scope,$http){
+	$scope.grab_pitchers = function(){
+		$http.get("/api/pitchers/" + $scope.selected_year.value+".json").success(function(d){
+			$scope.players = d.players;	
+			for(var i = 0;i < $scope.players.length; i++){
+				$scope.players[i].cat = 'P';
+				$scope.players[i].name  = $scope.players[i][0];
+				$scope.players[i].pos   = 'P';
+				$scope.players[i].team  = $scope.players[i][1];
+				$scope.players[i].ips   = $scope.players[i][4];
+				$scope.players[i].wins = $scope.players[i][5];
+				$scope.players[i].saves = $scope.players[i][7];
+				$scope.players[i].walks = $scope.players[i][9];
+				$scope.players[i].strikeouts = $scope.players[i][10];
+				$scope.players[i].ers = $scope.players[i][11];
+				$scope.players[i].era = $scope.players[i][12];
+				$scope.players[i].whip = $scope.players[i][13];
+				$scope.players[i].score = $scope.calc_score($scope.players[i]);
+			}
+		});
+	}
 	$scope.grab_batters = function(){
 		$http.get("/api/batters/"+$scope.selected_year.value+".json").success(function(d){
 			$scope.players = d.players;
 			for(var i = 0;i < $scope.players.length; i++){
+				$scope.players[i].cat = 'B';
 				$scope.players[i].score = $scope.calc_score($scope.players[i]);
 				$scope.players[i].name  = $scope.players[i][0];
 				$scope.players[i].pos   = $scope.players[i][1];
@@ -52,10 +55,16 @@ function StatsCtrl($scope,$http){
 	$scope.score_list = function(player){
 		if(player == null)
 			return 0;
+		if(player.cat == 'B'){
 		return [player.runs_score,player.singles_score,player.doubles_score,player.triples_score,player.homeruns_score,
 					 player.hits_score,player.rbis_score,player.walks_score,player.ks_score,player.sbs_score];
+		}
+		else{
+			return [player.ip_score,player.wins_score,player.saves_score,player.ers_score,player.walks_score,player.strikeouts_score];
+		}
 	}
 	$scope.calc_score = function(player){
+		if(player.cat == 'B'){
 		player.runs_score = player[5] * $scope.scoring.runs;
 		window.max_runs_score = Math.max(player.runs_score,window.max_runs_score);
 		player.singles_score = player[6] * $scope.scoring.singles;
@@ -69,6 +78,16 @@ function StatsCtrl($scope,$http){
 		player.sbs_score = (player[13] * $scope.scoring.sbs);
 		return player.runs_score + player.singles_score + player.doubles_score + player.triples_score + player.homeruns_score + player.hits_score + 
 					 player.rbis_score + player.walks_score + player.ks_score + player.sbs_score;
+		}
+		else{
+			player.ip_score = player.ips * $scope.scoring.ips;
+			player.wins_score = player.wins * $scope.scoring.wins;
+			player.saves_score = player.saves * $scope.scoring.svs;
+			player.ers_score = player.ers * $scope.scoring.ers;
+			player.walks_score = player.walks * $scope.scoring.pitcher_bbs;
+			player.strikeouts_score = player.strikeouts * $scope.scoring.pitcher_ks;
+			return player.ip_score + player.wins_score + player.saves_score + player.ers_score + player.walks_score + player.strikeouts_score;
+		}
 	}
 	$scope.toggle_pts = function(){
 		$scope.pts_asc = !$scope.pts_asc;
@@ -100,6 +119,30 @@ function StatsCtrl($scope,$http){
 		$scope.o = "obp";
 		$scope.asc = $scope.obp_asc;
 	}
+	$scope.toggle_era = function(){
+		$scope.era_asc = !$scope.era_asc;
+		$scope.o = "era";
+		$scope.asc = $scope.era_asc;
+	}
+	$scope.toggle_whip = function(){
+		$scope.whip_asc = !$scope.whip_asc;
+		$scope.o = "whip";
+		$scope.asc = $scope.whip_asc;
+	}
+
+	$scope.select_batters = function(){
+		$scope.cat = "B"
+		$scope.grab_batters();
+	}
+	$scope.select_pitchers = function(){
+		$scope.cat = "P"
+		$scope.grab_pitchers();
+	}
+
+	$scope.cat = 'B';
+
+	$scope.era_asc = false;
+	$scope.whip_asc = false;
 	$scope.pts_asc = false;
 	$scope.obp_asc = false;
 	$scope.slg_asc = false;

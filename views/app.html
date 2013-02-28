@@ -166,10 +166,20 @@
 									<input class="input search-query" type="text" ng-model="q"/>
 									<span class="add-on"><i class="icon-search"></i></span>
 								</div>
-								<span class="pull-right" style="padding-right:45px;">
-									<label>Season</label>
-									<select class="span1" ng-model="selected_year" ng-options="year.name for year in years" ng-change="grab_batters()"></select>
-								</span>
+									<span style="padding-right:21px;padding-left:13px;">
+									<label class="radio" style="padding-right:8px;">
+  									<input type="radio" ng-click="select_pitchers()" name="optionsRadios" id="optionsRadios1" value="pitchers">
+										Pitchers
+									</label>
+									<label class="radio">
+  									<input type="radio" ng-click="select_batters()" name="optionsRadios" id="optionsRadios2" value="batters" checked>
+										Batters
+									</label>
+									</span>
+									<span class="pull-right" style="padding-right:45px;">
+										<label>Season</label>
+										<select class="span1" ng-model="selected_year" ng-options="year.name for year in years" ng-change="grab_batters()"></select>
+									</span>
 							</form>
 						</div>
 					</div>
@@ -178,17 +188,23 @@
 							<th>Points <a ng-click="toggle_pts()"><i ng-class="{'icon-chevron-up':pts_asc==true,'icon-chevron-down':pts_asc==false}"></i></a></th>
 							<th>Player <a ng-click="toggle_name()"><i ng-class="{'icon-chevron-up':name_asc==true,'icon-chevron-down':name_asc==false}"></i></a></th>
 							<th>Position <a ng-click="toggle_pos()"><i ng-class="{'icon-chevron-up':pos_asc==true,'icon-chevron-down':pos_asc==false}"></i></a></th>
-							<th>SLG <a ng-click="toggle_slg()"><i ng-class="{'icon-chevron-up':slg_asc==true,'icon-chevron-down':slg_asc==false}"></i></a></th>
-							<th>OBP <a ng-click="toggle_obp()"><i ng-class="{'icon-chevron-up':obp_asc==true,'icon-chevron-down':obp_asc==false}"></i></a></th>
+							<ng-switch on="cat">
+							<th ng-hide="cat=='P'">SLG <a ng-click="toggle_slg()"><i ng-class="{'icon-chevron-up':slg_asc==true,'icon-chevron-down':slg_asc==false}"></i></a></th>
+							<th ng-hide="cat=='P'">OBP <a ng-click="toggle_obp()"><i ng-class="{'icon-chevron-up':obp_asc==true,'icon-chevron-down':obp_asc==false}"></i></a></th>
+							<th ng-hide="cat=='B'">ERA <a ng-click="toggle_era()"><i ng-class="{'icon-chevron-up':era_asc==true,'icon-chevron-down':era_asc==false}"></i></a></th>
+							<th ng-hide="cat=='B'">WHIP <a ng-click="toggle_whip()"><i ng-class="{'icon-chevron-up':whip_asc==true,'icon-chevron-down':whip_asc==false}"></i></a></th>
+							</ng-switch>
 							<th>Team <a ng-click="toggle_team()"><i ng-class="{'icon-chevron-up':team_asc==true,'icon-chevron-down':team_asc==false}"></i></a></th>
 						</tr>
 						<tr ng-repeat="player in players | filter:q | orderBy:o:asc" ng-click="show_details(player)">
-							<td>{{player.score}}</td> 
-							<td>{{player[0]}}</td>
-							<td>{{player[1]}}</td>
-							<td>{{player.slg}}</td>
-							<td>{{player.obp}}</td>
-							<td><img ng-src="{{'img/'+player[2]+'.gif'}}" width="21px"/> {{player[2]}}</td>
+							<td>{{player.score | number:2}}</td> 
+							<td>{{player.name}}</td>
+							<td>{{player.pos}}</td>
+							<td ng-hide="cat=='P'">{{player.slg | number:3}}</td>
+							<td ng-hide="cat=='P'">{{player.obp | number:3}}</td>
+							<td ng-hide="cat=='B'">{{player.era | number:3}}</td>
+							<td ng-hide="cat=='B'">{{player.whip | number:3}}</td>
+							<td><img ng-src="{{'img/'+player.team+'.gif'}}" width="21px"/> {{player.team}}</td>
 						</tr>
 					</table>
 				</div>
@@ -202,6 +218,8 @@
   			</div>
   			<div class="modal-body">
 					<p><span class="spark"></span></p>
+					<div ng-switch on="selected_player.cat">
+					<div ng-switch-when="B">
 					<table class="table">
 						<tr>
 							<th>Runs</th>
@@ -228,10 +246,34 @@
 							<td>{{selected_player.walks}}</td>
 							<td>{{selected_player.ks}}</td>
 							<td>{{selected_player.sbs}}</td>
-							<td>{{selected_player.slg}}</td>
-							<td>{{selected_player.obp}}</td>
+							<td>{{selected_player.slg | number:3}}</td>
+							<td>{{selected_player.obp | number:3}}</td>
 						</tr>
 					</table>
+					</div>
+					<div ng-switch-when="P">
+						<table class="table">
+							<tr>
+								<th>IP</th>
+								<th>W</th>
+								<th>SV</th>
+								<th>ER</th>
+								<th>BB</th>
+								<th>K</th>
+								<th>WHIP</th>
+							</tr>
+							<tr>
+								<td>{{selected_player.ips}}</td>
+								<td>{{selected_player.wins}}</td>
+								<td>{{selected_player.saves}}</td>
+								<td>{{selected_player.ers}}</td>
+								<td>{{selected_player.walks}}</td>
+								<td>{{selected_player.strikeouts}}</td>
+								<td>{{selected_player.whip | number:3}}</td>
+							</tr>
+						</table>
+					</div>
+					</div>
 				</div>
   		</div>
 		</div>
