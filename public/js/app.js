@@ -30,9 +30,18 @@ function StatsCtrl($scope,$http){
 			}
 		});
 	}
+	$scope.show_details = function(player){
+		$scope.selected_player = player;
+		var t = $scope.score_list(player);
+		$(".spark").html("");
+		$(".spark").sparkline(t,{type:'bar', height:34, barWidth:21, chartRangeMax:window.max_runs_score});
+		$("#mod").modal('show');
+	}
 	$scope.score_list = function(player){
-		return player.runs_score + ',' + player.singles_score + ',' + player.doubles_score + ',' + player.triples_score + ',' + player.homeruns_score + ',' +
-					 player.hits_score + ',' + player.rbis_score + ',' + player.walks_score + ',' + player.ks_score + ',' + player.sbs_score;
+		if(player == null)
+			return 0;
+		return [player.runs_score,player.singles_score,player.doubles_score,player.triples_score,player.homeruns_score,
+					 player.hits_score,player.rbis_score,player.walks_score,player.ks_score,player.sbs_score];
 	}
 	$scope.calc_score = function(player){
 		player.runs_score = player[5] * $scope.scoring.runs;
@@ -110,3 +119,6 @@ function StatsCtrl($scope,$http){
 	$scope.selected_year = $scope.years[0];
 	$scope.grab_batters();
 }
+$().ready(function(){
+	$("#det").modal('show');
+});

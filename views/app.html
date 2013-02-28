@@ -176,14 +176,12 @@
 					<table class="table table-bordered table-hover">
 						<tr>
 							<th>Points <a ng-click="toggle_pts()"><i ng-class="{'icon-chevron-up':pts_asc==true,'icon-chevron-down':pts_asc==false}"></i></a></th>
-							<th>R 1B 2B 3B HR H RBI BB K SB</th>
 							<th>Player <a ng-click="toggle_name()"><i ng-class="{'icon-chevron-up':name_asc==true,'icon-chevron-down':name_asc==false}"></i></a></th>
 							<th>Position <a ng-click="toggle_pos()"><i ng-class="{'icon-chevron-up':pos_asc==true,'icon-chevron-down':pos_asc==false}"></i></a></th>
 							<th>Team <a ng-click="toggle_team()"><i ng-class="{'icon-chevron-up':team_asc==true,'icon-chevron-down':team_asc==false}"></i></a></th>
 						</tr>
-						<tr ng-repeat="player in players | filter:q | orderBy:o:asc">
+						<tr ng-repeat="player in players | filter:q | orderBy:o:asc" ng-click="show_details(player)">
 							<td>{{player.score}}</td> 
-							<td><span style="margin-right:21px;"></span><barsparkline data="{{score_list(player)}}" /></td>
 							<td>{{player[0]}}</td>
 							<td>{{player[1]}}</td>
 							<td><img ng-src="{{'img/'+player[2]+'.gif'}}" width="21px"/> {{player[2]}}</td>
@@ -191,6 +189,16 @@
 					</table>
 				</div>
 			</div>
+			</div>
+			<div class="modal fade" id="mod">
+  			<div class="modal-header">
+    			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    			<h3>{{selected_player.name}}</h3>
+  			</div>
+  			<div class="modal-body">
+					<p><span class="spark"></span></p>
+  			</div>
+  		</div>
 		</div>
 		</div>
 		<script src="js/jquery.min.js"></script>
