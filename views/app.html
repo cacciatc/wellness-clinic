@@ -1,0 +1,202 @@
+<!doctype html>
+<html ng-app="baseball">
+	<head>
+		<link href="css/bootstrap.css" rel="stylesheet">
+	  <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400' rel='stylesheet' type='text/css'>
+    <link href='css/retriever.css' rel='stylesheet' type='text/css'>
+		<style>
+			body {
+				background: url(img/retina_wood.png);
+			}
+		</style>
+	</head>
+	<body ng-controller="StatsCtrl">
+		<div class="container" style="background:white;padding-left:34px;padding-right:34px;">
+		<div class="row">
+			<div class="span12">
+				<h1 class="page-header">The Wellness Clinic Stat Helper</h1>
+				<p>A small app for analyzing how many points your fantasy baseball picks would be worth in past years.</p>
+				<form class="form-horizontal">
+					<legend>League Scoring Specifics</legend>
+					<h4>Batters Stats Category</h4>
+					<div class="row">
+						<div class="span4">
+							<div class="control-group">
+								<label class="control-label">Runs (R)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.runs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Hits (H)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.hits" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Singles (1B)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.singles" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Doubles (2B)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.doubles" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Triples (3B)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.triples" /></div>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="control-group">
+								<label class="control-label">Homeruns (HR)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.homeruns" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Runs Batted In (RBI)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.rbis" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Sacrifice Hits (SH)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.shs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Stolen Bases (SB)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.sbs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Walks (BB)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.walks" /></div>
+							</div>
+						</div>
+						<div class="span4">	
+							<div class="control-group">
+								<label class="control-label">Strikeouts (K)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.ks" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Ground Into Double Play (GIDP)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.gidps" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Errors (E)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.errors" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Hitting for the Cycle (CYC)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.cycs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Grand Slams (SLAM)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.slams" /></div>
+							</div>
+						</div>
+					</div>
+					<h4>Pitchers Stats Category</h4>
+					<div class="row">
+						<div class="span4">
+							<div class="control-group">
+								<label class="control-label">Innings Pitched (IP)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.ips" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Wins (W)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.wins" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Complete Games (CG)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.cgs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Shutouts (SHO)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.shos" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Saves (SV)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.svs" /></div>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="control-group">
+								<label class="control-label">Earned Runs (ER)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.ers" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Walks (BB)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.pitcher_bbs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Strikeouts (K)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.pitcher_ks" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Batters Grounded Into Double Plays (GIDP)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.pitcher_gidps" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Holds (HLD)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.hlds" /></div>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="control-group">
+								<label class="control-label">Pickoffs (PICK)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.picks" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">No Hitters (NH)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.nhs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Perfect Games (PG)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.pgs" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Quality Starts (QS)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.qss" /></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Blown Saves (BSV)</label>
+								<div class="controls"><input class="input-small" type="number" ng-model="scoring.bsvs" /></div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="well">
+					<div class="row">
+						<div class="span12">
+							<form class="form-search">
+								<div class="input-append">
+									<input class="input search-query" type="text" ng-model="q"/>
+									<span class="add-on"><i class="icon-search"></i></span>
+								</div>
+								<span class="pull-right" style="padding-right:45px;">
+									<label>Season</label>
+									<select class="span1" ng-model="selected_year" ng-options="year.name for year in years" ng-change="grab_batters()"></select>
+								</span>
+							</form>
+						</div>
+					</div>
+					<table class="table table-bordered table-hover">
+						<tr>
+							<th>Points <a ng-click="toggle_pts()"><i ng-class="{'icon-chevron-up':pts_asc==true,'icon-chevron-down':pts_asc==false}"></i></a></th>
+							<th>R 1B 2B 3B HR H RBI BB K SB</th>
+							<th>Player <a ng-click="toggle_name()"><i ng-class="{'icon-chevron-up':name_asc==true,'icon-chevron-down':name_asc==false}"></i></a></th>
+							<th>Position <a ng-click="toggle_pos()"><i ng-class="{'icon-chevron-up':pos_asc==true,'icon-chevron-down':pos_asc==false}"></i></a></th>
+							<th>Team <a ng-click="toggle_team()"><i ng-class="{'icon-chevron-up':team_asc==true,'icon-chevron-down':team_asc==false}"></i></a></th>
+						</tr>
+						<tr ng-repeat="player in players | filter:q | orderBy:o:asc">
+							<td>{{player.score}}</td> 
+							<td><span style="margin-right:21px;"></span><barsparkline data="{{score_list(player)}}" /></td>
+							<td>{{player[0]}}</td>
+							<td>{{player[1]}}</td>
+							<td><img ng-src="{{'img/'+player[2]+'.gif'}}" width="21px"/> {{player[2]}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/sparkline.min.js"></script>
+   	<script src="js/bootstrap.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>
