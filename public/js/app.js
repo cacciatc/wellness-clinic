@@ -90,7 +90,19 @@ function StatsCtrl($scope,$http){
 		$scope.o = "team";
 		$scope.asc = $scope.team_asc;
 	}
+	$scope.toggle_slg = function(){
+		$scope.slg_asc = !$scope.slg_asc;
+		$scope.o = "slg";
+		$scope.asc = $scope.slg_asc;
+	}
+	$scope.toggle_obp = function(){
+		$scope.obp_asc = !$scope.obp_asc;
+		$scope.o = "obp";
+		$scope.asc = $scope.obp_asc;
+	}
 	$scope.pts_asc = false;
+	$scope.obp_asc = false;
+	$scope.slg_asc = false;
 	$scope.name_asc = false;
 	$scope.pos_asc = false;
 	$scope.team_asc = false;

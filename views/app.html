@@ -178,12 +178,16 @@
 							<th>Points <a ng-click="toggle_pts()"><i ng-class="{'icon-chevron-up':pts_asc==true,'icon-chevron-down':pts_asc==false}"></i></a></th>
 							<th>Player <a ng-click="toggle_name()"><i ng-class="{'icon-chevron-up':name_asc==true,'icon-chevron-down':name_asc==false}"></i></a></th>
 							<th>Position <a ng-click="toggle_pos()"><i ng-class="{'icon-chevron-up':pos_asc==true,'icon-chevron-down':pos_asc==false}"></i></a></th>
+							<th>SLG <a ng-click="toggle_slg()"><i ng-class="{'icon-chevron-up':slg_asc==true,'icon-chevron-down':slg_asc==false}"></i></a></th>
+							<th>OBP <a ng-click="toggle_obp()"><i ng-class="{'icon-chevron-up':obp_asc==true,'icon-chevron-down':obp_asc==false}"></i></a></th>
 							<th>Team <a ng-click="toggle_team()"><i ng-class="{'icon-chevron-up':team_asc==true,'icon-chevron-down':team_asc==false}"></i></a></th>
 						</tr>
 						<tr ng-repeat="player in players | filter:q | orderBy:o:asc" ng-click="show_details(player)">
 							<td>{{player.score}}</td> 
 							<td>{{player[0]}}</td>
 							<td>{{player[1]}}</td>
+							<td>{{player.slg}}</td>
+							<td>{{player.obp}}</td>
 							<td><img ng-src="{{'img/'+player[2]+'.gif'}}" width="21px"/> {{player[2]}}</td>
 						</tr>
 					</table>
