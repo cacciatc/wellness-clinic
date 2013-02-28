@@ -190,7 +190,8 @@ function StatsCtrl($scope,$http){
 	$scope.scoring.picks = 0.5;
 
 	window.max_runs_score = 0;
-	$scope.years = [{name:'2012',value:'2012'},{name:'2011',value:'2011'},{name:'2010',value:'2010'}];	
+	$scope.years = [{name:'2012',value:'2012'},{name:'2011',value:'2011'},{name:'2010',value:'2010'},{name:'2009',value:'2009'},
+									{name:'2008',value:'2008'}];	
 	$scope.selected_year = $scope.years[0];
 	$scope.grab_batters();
 }
