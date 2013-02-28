@@ -46,7 +46,7 @@ function StatsCtrl($scope,$http){
 		$scope.selected_player = player;
 		var t = $scope.score_list(player);
 		$(".spark").html("");
-		$(".spark").sparkline(t,{type:'bar', height:55, barWidth:34, chartRangeMax:window.max_runs_score});
+		$(".spark").sparkline(t,{type:'bar', height:55, barWidth:34, chartRangeMax:window.max_runs_score, tooltipSuffix:" pts."});
 		$("#mod").modal('show');
 	}
 	$scope.score_list = function(player){
@@ -139,7 +139,7 @@ function StatsCtrl($scope,$http){
 	$scope.scoring.picks = 0.5;
 
 	window.max_runs_score = 0;
-	$scope.years = [{name:'2012',value:'2012'},{name:'2011',value:'2011'}];	
+	$scope.years = [{name:'2012',value:'2012'},{name:'2011',value:'2011'},{name:'2010',value:'2010'}];	
 	$scope.selected_year = $scope.years[0];
 	$scope.grab_batters();
 }
