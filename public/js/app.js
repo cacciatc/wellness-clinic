@@ -138,6 +138,14 @@ function StatsCtrl($scope,$http){
 		$scope.cat = "P"
 		$scope.grab_pitchers();
 	}
+	$scope.grab = function(){
+		if($scope.cat == 'B'){
+			$scope.grab_batters();
+		}
+		else{
+			$scope.grab_pitchers();
+		}
+	}
 
 	$scope.cat = 'B';
 
